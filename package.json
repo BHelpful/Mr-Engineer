@@ -5,6 +5,9 @@
   "main": "bot.js",
   "author": "Andreas",
   "license": "ISC",
+  "scripts": {
+    "start": "node bot.js"
+  },
   "dependencies": {
     "dankmemes": "^1.0.0",
     "discord.js": "^11.3.2",
