@@ -10,7 +10,7 @@ const bot = new Discord.Client({
   disableEveryone: true
 })
 const mongoose = require('mongoose')
-mongoose.connect(`mongodb+srv://Andreasgdp:${botSettings.mongooseToken}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
+mongoose.connect(`mongodb+srv://Andreasgdp:${process.env.mongooseToken}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
   useNewUrlParser: true
 })
 
@@ -663,4 +663,4 @@ function play (guild, song) {
 }
 // End of YouTube bot
 
-bot.login(botSettings.token)
+bot.login(process.env.BOT_TOKEN)
