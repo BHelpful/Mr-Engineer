@@ -489,17 +489,6 @@ Please provide a value to select one of the 🔎 results ranging from **1-5**.`)
     if (!serverQueue) return message.channel.send('There is nothing playing that I could skip for you.')
     serverQueue.connection.dispatcher.end('Skip command has been used!')
     return undefined
-  } else if (message.content.startsWith(prefix + 'leave')) {
-    if (bot.voice.connections) {
-      if (message.member.voiceChannel) {
-        if (!serverQueue) return message.channel.send('There is nothing playing that I could skip for you.')
-        serverQueue.songs = []
-        serverQueue.connection.dispatcher.end('Stop command has been used!')
-        message.member.voiceChannel.leave()
-      } else {
-        message.reply('You must be in a voice channel first!')
-      }
-    }
   } else if (message.content.startsWith(prefix + 'stop')) {
     if (!message.member.voiceChannel) return message.channel.send("You're not in a voiceChannel!")
     if (!serverQueue) return message.channel.send('There is nothing playing that I could skip for you.')
@@ -516,7 +505,7 @@ Please provide a value to select one of the 🔎 results ranging from **1-5**.`)
   } else if (message.content.startsWith(prefix + 'np')) {
     if (!serverQueue) return message.channel.send('There is nothing playing.')
     return message.channel.send(`🎶 Now playing: **${serverQueue.songs[0].title}**`)
-  } else if (command === 'queue') {
+  } else if (message.content.startsWith(prefix + 'queue')) {
     if (!serverQueue) return message.channel.send('There is nothing playing.')
     return message.channel.send(`
 __**Song queue:**__
