@@ -458,28 +458,11 @@ bot.on('message', async message => {
         video = await youtube.getVideo(url)
       } catch (error) {
         try {
-          message.channel.send(`<:YouTube:521795667392200716> Searching :mag_right: **${searchString}**`)
-          videos = await youtube.searchVideos(searchString, 5)
-          let index = 0
-          message.channel.send(`
-__**Song selection:**__
-${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
-Please provide a value to select one of the 🔎 results ranging from **1-5**.`)
-          try {
-            var response = await message.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
-              maxMatches: 1,
-              time: 30000,
-              errors: ['time']
-            })
-          } catch (err) {
-            console.error(err)
-            return message.channel.send('No or invalid value entered, cancelling video selection.')
-          }
-          const videoIndex = parseInt(response.first().content)
-          video = await youtube.getVideoByID(videos[videoIndex - 1].id)
+          videos = await youtube.searchVideos(searchString, 1)
+          video = await youtube.getVideoByID(videos[0].id)
         } catch (err) {
-          console.error(err)
-          return message.channel.send('🆘 I could not obtain any search results.')
+          console.log(err)
+          return message.channel.send(`I could not obtain any search results`)
         }
       }
       return handleVideo(video, message, voiceChannel)
@@ -489,17 +472,6 @@ Please provide a value to select one of the 🔎 results ranging from **1-5**.`)
     if (!serverQueue) return message.channel.send('There is nothing playing that I could skip for you.')
     serverQueue.connection.dispatcher.end('Skip command has been used!')
     return undefined
-  } else if (message.content.startsWith(prefix + 'leave')) {
-    if (bot.voice.connections) {
-      if (message.member.voiceChannel) {
-        if (!serverQueue) return message.channel.send('There is nothing playing that I could skip for you.')
-        serverQueue.songs = []
-        serverQueue.connection.dispatcher.end('Stop command has been used!')
-        message.member.voiceChannel.leave()
-      } else {
-        message.reply('You must be in a voice channel first!')
-      }
-    }
   } else if (message.content.startsWith(prefix + 'stop')) {
     if (!message.member.voiceChannel) return message.channel.send("You're not in a voiceChannel!")
     if (!serverQueue) return message.channel.send('There is nothing playing that I could skip for you.')
@@ -516,7 +488,7 @@ Please provide a value to select one of the 🔎 results ranging from **1-5**.`)
   } else if (message.content.startsWith(prefix + 'np')) {
     if (!serverQueue) return message.channel.send('There is nothing playing.')
     return message.channel.send(`🎶 Now playing: **${serverQueue.songs[0].title}**`)
-  } else if (command === 'queue') {
+  } else if (message.content.startsWith(prefix + 'queue')) {
     if (!serverQueue) return message.channel.send('There is nothing playing.')
     return message.channel.send(`
 __**Song queue:**__
@@ -621,7 +593,11 @@ async function handleVideo (video, message, voiceChannel, playlist = false) {
       playing: true
     }
     queue.set(message.guild.id, queueConstruct)
+
     queueConstruct.songs.push(song)
+
+    await voiceChannel.leave()
+
     try {
       var connection = await voiceChannel.join()
       queueConstruct.connection = connection
@@ -633,7 +609,6 @@ async function handleVideo (video, message, voiceChannel, playlist = false) {
     }
   } else {
     serverQueue.songs.push(song)
-    console.log(serverQueue.songs)
     if (playlist) return undefined
     else return message.channel.send(`✅ **${song.title}** has been added to the queue!`)
   }
@@ -659,7 +634,7 @@ function play (guild, song) {
     .on('error', error => console.error(error))
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
 
-  serverQueue.textChannel.send(`:church: :notes: Playing: **${song.title}** - now`)
+  serverQueue.textChannel.send(`Starts playing: **${song.title}**`)
 }
 // End of YouTube bot
 
