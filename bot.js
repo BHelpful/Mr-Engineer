@@ -136,10 +136,10 @@ bot.on('reconnecting', () => console.log('I am reconnecting now!'))
 
 // Sends an embed with new members joining the server:
 bot.on('guildMemberAdd', async member => {
-  if (!member.guild.channels.find(`name`, 'member-log')) {
-    await member.guild.createChannel('member-log', 'text')
+  if (!member.guild.channels.find(`name`, 'sogneregisteret')) {
+    await member.guild.createChannel('sogneregisteret', 'text')
   }
-  let memberLogChannel = member.guild.channels.find(`name`, 'member-log')
+  let memberLogChannel = member.guild.channels.find(`name`, 'sogneregisteret')
 
   let amEmbed = new Discord.RichEmbed()
     .setAuthor(`${member.user.username}#${member.user.discriminator} (ID: ${member.id})`, member.user.displayAvatarURL)
@@ -161,10 +161,10 @@ bot.on('guildMemberAdd', async member => {
 // Sends an embed with new members leaving the server:
 bot.on('guildMemberRemove', async member => {
   console.log(member.guild)
-  if (!member.guild.channels.find(`name`, 'member-log')) {
-    await member.guild.createChannel('member-log', 'text')
+  if (!member.guild.channels.find(`name`, 'sogneregisteret')) {
+    await member.guild.createChannel('sogneregisteret', 'text')
   }
-  let memberLogChannel = member.guild.channels.find(`name`, 'member-log')
+  let memberLogChannel = member.guild.channels.find(`name`, 'sogneregisteret')
 
   let amEmbed = new Discord.RichEmbed()
     .setAuthor(`${member.user.username}#${member.user.discriminator} (ID: ${member.id})`, member.user.displayAvatarURL)

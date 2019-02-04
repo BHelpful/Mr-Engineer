@@ -18,11 +18,11 @@ module.exports.run = async (bot, message, args) => {
 
   delete bot.mutes[toMute.id]
 
-  let roleM = message.guild.roles.find(r => r.name === 'Member')
+  let roleM = message.guild.roles.find(r => r.name === 'Kirkekoret')
   if (!roleM) {
     try {
       roleM = await message.guild.createRole({
-        name: 'Member'
+        name: 'Kirkekoret'
       })
     } catch (e) {
       console.log(e.stack)
