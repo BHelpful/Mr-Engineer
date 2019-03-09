@@ -304,6 +304,8 @@ bot.on('messageDelete', async message => {
     delMessage = 'There was no text in the message.'
   }
 
+  if (delMessage === `${prefix}level` || delMessage.startsWith(`${prefix}clear`) || (user.id === undefined)) return
+
   let deleteEmbed = new Discord.RichEmbed()
     .setTitle('Message deleted')
     .setColor(botSettings.red)
