@@ -18,6 +18,7 @@ const Level = require('./models/level.js')
 const errors = require('./utils/errors.js')
 const YouTube = require('simple-youtube-api')
 const ytdl = require('ytdl-core')
+const snekfetch = require('snekfetch')
 
 const youtube = new YouTube(botSettings.GOOGLE_API_KEY)
 
@@ -101,6 +102,46 @@ bot.on('ready', async () => {
   setInterval(async () => {
     bot.user.setActivity(prefix + 'help ' + `|| On ${bot.guilds.size} servers!`)
   }, 10000)
+
+  setInterval(async () => {
+    let subServerID = '432893133874003968'
+    let tSeriesId = 'UCq-Fj5jknLsUf-MWSy4_brA'
+    let pewdiepieId = 'UC-lHJZR3Gqxm24_Vd_AJ5Yw'
+    const pew = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${pewdiepieId}&key=${botSettings.GOOGLE_API_KEY}`)
+    let pewCounter = pew.body.items[0].statistics.subscriberCount
+    const tGay = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${tSeriesId}&key=${botSettings.GOOGLE_API_KEY}`)
+    let tGayCounter = tGay.body.items[0].statistics.subscriberCount
+    if (!bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tgay')) {
+      await bot.guilds.get(subServerID).createChannel('pewds-vs-tgay', 'text')
+    }
+    let sendChannel = bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tgay')
+    let leadingName
+    let leadingIcon
+    let leadingColor
+
+    if (pewCounter > tGayCounter) {
+      leadingName = 'PewDiePie'
+      leadingIcon = 'https://cdn.iconscout.com/icon/free/png-256/pewdiepie-282191.png'
+      leadingColor = '#00c9e0'
+    } else {
+      leadingName = 'T-Gay'
+      leadingIcon = 'https://pbs.twimg.com/profile_images/720159926723588096/E49B7GyJ_400x400.jpg'
+      leadingColor = '#ff0000'
+    }
+    let subEmbed = new Discord.RichEmbed()
+      .setAuthor(`${leadingName} is ahead!`, `${leadingIcon}`)
+      .setTitle('Do your part here!')
+      .setURL('https://www.youtube.com/user/PewDiePie?sub_confirmation=1')
+      .setColor(leadingColor)
+      .setThumbnail(leadingIcon)
+      .setFooter('Remember to do your part boiis')
+      .setTimestamp()
+      .addField(`THE SUBGAP: ${pewCounter - tGayCounter}`, '\u200B')
+      .addField("PewDiwPie's subcount:", pewCounter, true)
+      .addField("T-Gay's subcount:", tGayCounter, true)
+    sendChannel.send(subEmbed)
+  }, 3600000 / 2)
+
 
   bot.setInterval(() => {
     for (let i in bot.mutes) {
