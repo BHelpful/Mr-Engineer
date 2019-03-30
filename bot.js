@@ -195,7 +195,7 @@ bot.on('ready', async () => {
 
   setInterval(async () => {
     let d = new Date()
-    if (d.getHours() === 5) {
+    if (d.getHours() === 5 && d.getSeconds() === 0) {
       let cleanArray = []
       fs.writeFile('./memelog.json', JSON.stringify(cleanArray), (err) => {
         if (err) console.log(err)
