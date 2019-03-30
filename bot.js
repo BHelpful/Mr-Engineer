@@ -156,7 +156,7 @@ bot.on('ready', async () => {
       }
       let sendChannel = bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣migmig')
       // get the json version of the memes from r/dankmemes/top
-      const { body } = await snekfetch.get('https://www.reddit.com/r/dankmemes.json?sort=top&t=week')
+      const { body } = await snekfetch.get('https://www.reddit.com/r/dankmemes/top.json?sort=top&t=week')
       const allowed = sendChannel.nsfw ? body.data.children : body.data.children.filter(post => !post.data.over_18)
       if (!allowed.length) return sendChannel.send('It seems we are out of fresh memes!, Try again later.')
 
