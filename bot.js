@@ -148,7 +148,7 @@ bot.on('ready', async () => {
 
   bot.setInterval(async () => {
     let d = new Date()
-    if (d.getMinutes() === 30 && d.getSeconds() === 0) {
+    if (d.getMinutes() === 0 && d.getSeconds() === 0) {
       // define a channel to post the meme in
       let memeServerID = '432893133874003968'
       if (!bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣migmig')) {
