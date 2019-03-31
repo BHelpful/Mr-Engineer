@@ -144,10 +144,7 @@ bot.on('ready', async () => {
         .addField("T-Gay's subcount:", tGayCounter, true)
       sendChannel.send(subEmbed)
     }
-  }, 1000)
 
-  bot.setInterval(async () => {
-    let d = new Date()
     if (d.getMinutes() === 0 && d.getSeconds() === 0) {
       // define a channel to post the meme in
       let memeServerID = '432893133874003968'
@@ -191,10 +188,7 @@ bot.on('ready', async () => {
         .setFooter(`👍 ${theMeme.ups} 💬 ${theMeme.num_comments}`)
       sendChannel.send(embed)
     }
-  }, 1000)
 
-  setInterval(async () => {
-    let d = new Date()
     if (d.getHours() === 5 && d.getSeconds() === 0) {
       let cleanArray = []
       fs.writeFile('./memelog.json', JSON.stringify(cleanArray), (err) => {
