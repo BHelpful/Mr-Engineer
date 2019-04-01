@@ -140,7 +140,7 @@ bot.on('ready', async () => {
         .setFooter('Remember to do your part boiis')
         .setTimestamp()
         .addField(`THE SUBGAP: ${pewCounter - tGayCounter}`, '\u200B')
-        .addField("PewDiwPie's subcount:", pewCounter, true)
+        .addField("PewDiePie's subcount:", pewCounter, true)
         .addField("T-Gay's subcount:", tGayCounter, true)
       sendChannel.send(subEmbed)
     }
