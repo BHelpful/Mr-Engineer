@@ -492,7 +492,7 @@ bot.on('message', async message => {
     if (url2 === 'mission_impossible') link = 'https://www.youtube.com/watch?v=XAYhNHhxN0A'
     else if (url2 === 'mc') link = 'https://www.youtube.com/watch?v=CBbvpgr4Qb4'
     else if (url2 === 'cocaine') link = 'https://www.youtube.com/watch?v=1bSQfyYVNW8'
-    else if (url2 === 'die') link = 'https://www.youtube.com/watch?v=Ft071uT3hfM'
+    else if (url2 === 'die') link = 'https://www.youtube.com/watch?v=kJVLSPxj43k'
     else if (url2 === 'james_bond') link = 'https://www.youtube.com/watch?v=ye8KvYKn9-0'
     else if (url2 === 'kazoo') link = 'https://www.youtube.com/watch?v=7eVO_3z-Lhc'
     else if (url2 === 'minecraft_theme') link = 'https://www.youtube.com/watch?v=cjQQ9JYGgTM'
