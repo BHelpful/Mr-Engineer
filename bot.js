@@ -114,10 +114,10 @@ bot.on('ready', async () => {
       let pewCounter = pew.body.items[0].statistics.subscriberCount
       const tGay = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${tSeriesId}&key=${botSettings.GOOGLE_API_KEY}`)
       let tGayCounter = tGay.body.items[0].statistics.subscriberCount
-      if (!bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tgay')) {
-        await bot.guilds.get(subServerID).createChannel('pewds-vs-tgay', 'text')
+      if (!bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')) {
+        await bot.guilds.get(subServerID).createChannel('pewds-vs-tbad', 'text')
       }
-      let sendChannel = bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tgay')
+      let sendChannel = bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')
       let leadingName
       let leadingIcon
       let leadingColor
