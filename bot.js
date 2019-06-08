@@ -122,7 +122,7 @@ bot.on('ready', async () => {
       let leadingIcon
       let leadingColor
 
-      if (pewCounter > tGayCounter) {
+      if (pewCounter / 10 > tGayCounter / 10) {
         leadingName = 'PewDiePie'
         leadingIcon = 'https://cdn.iconscout.com/icon/free/png-256/pewdiepie-282191.png'
         leadingColor = '#00c9e0'
