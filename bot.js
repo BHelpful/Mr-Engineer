@@ -127,7 +127,7 @@ bot.on('ready', async () => {
         leadingIcon = 'https://cdn.iconscout.com/icon/free/png-256/pewdiepie-282191.png'
         leadingColor = '#00c9e0'
       } else {
-        leadingName = 'T-Gay'
+        leadingName = 'T-Bad'
         leadingIcon = 'https://pbs.twimg.com/profile_images/720159926723588096/E49B7GyJ_400x400.jpg'
         leadingColor = '#ff0000'
       }
@@ -137,11 +137,11 @@ bot.on('ready', async () => {
         .setURL('https://www.youtube.com/user/PewDiePie?sub_confirmation=1')
         .setColor(leadingColor)
         .setThumbnail(leadingIcon)
-        .setFooter('Remember to do your part boiis')
+        .setFooter('Remember to do your part boiiis')
         .setTimestamp()
         .addField(`THE SUBGAP: ${pewCounter - tGayCounter}`, '\u200B')
         .addField("PewDiePie's subcount:", pewCounter, true)
-        .addField("T-Gay's subcount:", tGayCounter, true)
+        .addField("T-Bad's subcount:", tGayCounter, true)
       sendChannel.send(subEmbed)
     }
 
