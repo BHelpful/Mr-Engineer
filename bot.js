@@ -204,7 +204,7 @@ bot.on('ready', async () => {
       let guild = bot.guilds.get(guildId)
       let member = guild.members.get(i)
       let mutedRole = guild.roles.find(r => r.name === 'Muted')
-      let roleM = guild.roles.find(r => r.name === 'Kirkekoret')
+      let roleM = guild.roles.find(r => r.name === 'Medlem')
       if (!mutedRole) continue
 
       if (Date.now() > time && time != null) {
@@ -231,10 +231,10 @@ bot.on('reconnecting', () => console.log('I am reconnecting now!'))
 
 // Sends an embed with new members joining the server:
 bot.on('guildMemberAdd', async member => {
-  if (!member.guild.channels.find(`name`, 'sogneregisteret')) {
-    await member.guild.createChannel('sogneregisteret', 'text')
+  if (!member.guild.channels.find(`name`, '📑medlems-log')) {
+    await member.guild.createChannel('📑medlems-log', 'text')
   }
-  let memberLogChannel = member.guild.channels.find(`name`, 'sogneregisteret')
+  let memberLogChannel = member.guild.channels.find(`name`, '📑medlems-log')
 
   let amEmbed = new Discord.RichEmbed()
     .setAuthor(`${member.user.username}#${member.user.discriminator} (ID: ${member.id})`, member.user.displayAvatarURL)
@@ -243,23 +243,23 @@ bot.on('guildMemberAdd', async member => {
     .setTimestamp()
   memberLogChannel.send(amEmbed)
 
-  if (!member.guild.roles.find('name', 'Kirkekoret')) {
+  if (!member.guild.roles.find('name', 'Medlem')) {
     await member.guild.createRole({
       name: 'Member'
     })
   }
 
-  var role = member.guild.roles.find('name', 'Kirkekoret')
+  var role = member.guild.roles.find('name', 'Medlem')
   member.addRole(role)
 })
 
 // Sends an embed with new members leaving the server:
 bot.on('guildMemberRemove', async member => {
   console.log(member.guild)
-  if (!member.guild.channels.find(`name`, 'sogneregisteret')) {
-    await member.guild.createChannel('sogneregisteret', 'text')
+  if (!member.guild.channels.find(`name`, '📑medlems-log')) {
+    await member.guild.createChannel('📑medlems-log', 'text')
   }
-  let memberLogChannel = member.guild.channels.find(`name`, 'sogneregisteret')
+  let memberLogChannel = member.guild.channels.find(`name`, '📑medlems-log')
 
   let amEmbed = new Discord.RichEmbed()
     .setAuthor(`${member.user.username}#${member.user.discriminator} (ID: ${member.id})`, member.user.displayAvatarURL)
