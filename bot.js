@@ -1,3 +1,6 @@
+const theSettings = require('./botsettings.json')
+// const theSettings = require('./ignored_folder/ignoredsettings.json')
+
 const {
   Util
 } = require('discord.js')
@@ -10,7 +13,7 @@ const bot = new Discord.Client({
   disableEveryone: true
 })
 const mongoose = require('mongoose')
-mongoose.connect(`mongodb+srv://Andreasgdp:${process.env.mongooseToken}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
+mongoose.connect(`mongodb+srv://Andreasgdp:${theSettings.mongooseToken}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
   useNewUrlParser: true
 })
 
@@ -20,7 +23,7 @@ const YouTube = require('simple-youtube-api')
 const ytdl = require('ytdl-core')
 const snekfetch = require('snekfetch')
 
-const youtube = new YouTube(botSettings.GOOGLE_API_KEY)
+const youtube = new YouTube(theSettings.GOOGLE_API_KEY)
 
 const queue = new Map()
 
@@ -749,4 +752,4 @@ function play (guild, song) {
 }
 // End of YouTube bot
 
-bot.login(process.env.BOT_TOKEN)
+bot.login(theSettings.token)

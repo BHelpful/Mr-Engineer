@@ -1,8 +1,8 @@
 {
-  "token": "NTQwOTUyNTc4MjE3NzM4Mjc0.DzZDRg.DCw-GAmIjwr5WeLH5md1vcv9yBo",
+  "token": "process.env.BOT_TOKEN",
   "prefix": "-",
-  "mongooseToken": "Agdphps119!",
-  "GOOGLE_API_KEY": "AIzaSyAG3SqpikyDeCkVhFY-l6bcHTqPEXtufQg",
+  "mongooseToken": "process.env.mongooseToken",
+  "GOOGLE_API_KEY": "process.env.GOOGLE_API_KEY",
   "red": "#ff0000",
   "purple": "#d604cf",
   "blue": "#4286f4",
