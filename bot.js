@@ -1,5 +1,7 @@
-const theSettings = require('./botsettings.json')
-// const theSettings = require('./ignored_folder/ignoredsettings.json')
+// const testingSettings = false
+const testingSettings = true
+
+const testSettings = require('./ignored_folder/ignoredsettings.json')
 
 const {
   Util
@@ -13,7 +15,14 @@ const bot = new Discord.Client({
   disableEveryone: true
 })
 const mongoose = require('mongoose')
-mongoose.connect(`mongodb+srv://Andreasgdp:${theSettings.mongooseToken}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
+
+if (testingSettings) {
+  mongooseValue = testSettings.mongooseToken
+} else if (!testingSettings) {
+  mongooseValue = process.env.mongooseToken
+}
+
+mongoose.connect(`mongodb+srv://Andreasgdp:${mongooseValue}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
   useNewUrlParser: true
 })
 
@@ -23,7 +32,13 @@ const YouTube = require('simple-youtube-api')
 const ytdl = require('ytdl-core')
 const snekfetch = require('snekfetch')
 
-const youtube = new YouTube(theSettings.GOOGLE_API_KEY)
+if (testingSettings) {
+  googleValue = testSettings.GOOGLE_API_KEY
+} else if (!testingSettings) {
+  googleValue = process.env.GOOGLE_API_KEY
+}
+
+const youtube = new YouTube(googleValue)
 
 const queue = new Map()
 
@@ -752,4 +767,10 @@ function play (guild, song) {
 }
 // End of YouTube bot
 
-bot.login(theSettings.token)
+if (testingSettings) {
+  tokenValue = testSettings.token
+} else if (!testingSettings) {
+  tokenValue = process.env.BOT_TOKEN
+}
+
+bot.login(tokenValue)

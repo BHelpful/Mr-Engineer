@@ -1,8 +1,5 @@
 {
-  "token": "process.env.BOT_TOKEN",
   "prefix": "-",
-  "mongooseToken": "process.env.mongooseToken",
-  "GOOGLE_API_KEY": "process.env.GOOGLE_API_KEY",
   "red": "#ff0000",
   "purple": "#d604cf",
   "blue": "#4286f4",
