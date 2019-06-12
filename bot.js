@@ -1,5 +1,5 @@
-// const testingSettings = false
-const testingSettings = true
+const testingSettings = false
+// const testingSettings = true
 
 const testSettings = require('./ignored_folder/ignoredsettings.json')
 
