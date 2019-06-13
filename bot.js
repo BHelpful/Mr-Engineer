@@ -747,7 +747,7 @@ function play (guild, song) {
 }
 // End of YouTube bot
 
-tokenValue = checkingTesting(testingSettings, 'token')
+tokenValue = checkingTesting(testingSettings, 'BOT_TOKEN')
 
 bot.login(tokenValue)
 
