@@ -1,12 +1,12 @@
 // Comment out when testing
 // ------------------------------------------------------------------
-const testingSettings = false
+// const testingSettings = false
 // ------------------------------------------------------------------
 
 // Comment out when putting online
 // ------------------------------------------------------------------
-// const testingSettings = true
-// const testSettings = require('./ignored_folder/ignoredsettings.json')
+const testingSettings = true
+const testSettings = require('./ignored_folder/ignoredsettings.json')
 // ------------------------------------------------------------------
 
 
