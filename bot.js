@@ -9,6 +9,16 @@ const testingSettings = false
 // const testSettings = require('./ignored_folder/ignoredsettings.json')
 // ------------------------------------------------------------------
 
+
+function checkingTesting (testingSettings, name) {
+  if (testingSettings) {
+    return testSettings[name]
+  } else if (!testingSettings) {
+    return process.env[name]
+  }  
+}
+
+
 const {
   Util
 } = require('discord.js')
@@ -21,30 +31,21 @@ const bot = new Discord.Client({
   disableEveryone: true
 })
 const mongoose = require('mongoose')
-
-if (testingSettings) {
-  mongooseValue = testSettings.mongooseToken
-} else if (!testingSettings) {
-  mongooseValue = process.env.mongooseToken
-}
-
-mongoose.connect(`mongodb+srv://Andreasgdp:${mongooseValue}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
-  useNewUrlParser: true
-})
-
 const Level = require('./models/level.js')
 const errors = require('./utils/errors.js')
 const YouTube = require('simple-youtube-api')
 const ytdl = require('ytdl-core')
 const snekfetch = require('snekfetch')
 
-if (testingSettings) {
-  googleValue = testSettings.GOOGLE_API_KEY
-} else if (!testingSettings) {
-  googleValue = process.env.GOOGLE_API_KEY
-}
+mongooseValue = checkingTesting(testingSettings, 'mongooseToken')
 
-const youtube = new YouTube(googleValue)
+mongoose.connect(`mongodb+srv://Andreasgdp:${mongooseValue}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
+  useNewUrlParser: true
+})
+
+googleValue = checkingTesting(testingSettings, 'GOOGLE_API_KEY')
+
+const youtube = new YouTube(`${googleValue}`)
 
 const queue = new Map()
 
@@ -61,11 +62,18 @@ fs.readdir('./cmds/', (err, files) => {
     return
   }
 
-  console.log(`Loading ${jsfiles.length} commands!`)
+  if (testingSettings) {
+    console.log(`Loading ${jsfiles.length} commands!`)
+  }
 
   jsfiles.forEach((f, i) => {
     let props = require(`./cmds/${f}`)
-    bot.commands.set(props.help.name, props)
+
+    if (props && props.help) {
+      bot.commands.set(props.help.name, props)
+    } else {
+      //throw or handle error here
+    }
   })
 })
 
@@ -737,10 +745,16 @@ function play (guild, song) {
 }
 // End of YouTube bot
 
-if (testingSettings) {
-  tokenValue = testSettings.token
-} else if (!testingSettings) {
-  tokenValue = process.env.BOT_TOKEN
-}
+tokenValue = checkingTesting(testingSettings, 'token')
 
 bot.login(tokenValue)
+
+
+module.exports = {
+  // Exporting functions
+  checkingTesting: checkingTesting,
+
+
+  // Exporting variables
+  testingSettings: testingSettings,
+}

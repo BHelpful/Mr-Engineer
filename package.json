@@ -6,8 +6,13 @@
   "author": "Andreas",
   "license": "ISC",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "test": "jest"
   },
+  "keywords": [
+    "testing",
+    "test"
+  ],
   "dependencies": {
     "dankmemes": "^1.0.0",
     "discord.js": "^11.3.2",
@@ -31,6 +36,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^24.8.0"
   }
 }

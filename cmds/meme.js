@@ -25,6 +25,6 @@ exports.run = async (bot, message, args) => {
   }
 }
 
-exports.help = {
+module.exports.help = {
   name: 'meme'
 }
