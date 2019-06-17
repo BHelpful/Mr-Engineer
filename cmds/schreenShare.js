@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
   if (message.member.voiceChannel) {
-    await message.delete()
+    // await message.delete()
     serverID = message.guild.id
     voiceChannelID = message.member.voiceChannelID
     console.log(voiceChannelID);
