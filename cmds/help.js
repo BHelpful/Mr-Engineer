@@ -22,12 +22,13 @@ module.exports.run = async (bot, message, args, prefix, botSettings) => {
       .addField(prefix + '8ball <QUISTION>', `Ask the ball a question and gets an answer back.`)
       .addField(prefix + 'urban <WORD>', `Makes an Urban Dictionary search a word.`)
       .addField(prefix + 'random urban', `Makes a random Urban Dictionary search.`)
-      .addField(prefix + 'serverinfo', `Gives a list of information of the server`)
+      .addField(prefix + 'serverinfo', `Gives a list of information of the server.`)
       .addField(prefix + 'invite', `Generates an invite for the bot.`)
       .addField(prefix + 'ping', `Pings the bot.`)
       .addField(prefix + 'getnsfw', `Gives you the role NSFW.`)
       .addField(prefix + 'removensfw', `Removes the role NSFW.`)
       .addField(prefix + 'userinfo <USER>', `Gives a list of information of you or the user mentioned.`)
+      .addField(prefix + 'ss', `Generates a link to activate Screen Share in the voice channel the user is in.`)
 
     let musicEmbed = new Discord.RichEmbed()
       .setTitle('Music commands:')
@@ -42,7 +43,7 @@ module.exports.run = async (bot, message, args, prefix, botSettings) => {
       .addField(prefix + 'np', `Shows the title of the song playing.`)
       .addField(prefix + 'queue', `Shows the queue, if it is short enough.`)
       .addField(prefix + 'pause', `Pauses the music.`)
-      .addField(prefix + 'resume', `Resumes the music`)
+      .addField(prefix + 'resume', `Resumes the music.`)
       .addField(prefix + 'stop', `Stops the music from youtube.`)
 
     let adminEmbed = new Discord.RichEmbed()
