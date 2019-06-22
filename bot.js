@@ -12,14 +12,18 @@ const testingSettings = false
 // ------------------------------------------------------------------
 
 
-function checkingTesting (testingSettings, name) {
+function checkingTesting(testingSettings, name) {
   if (testingSettings) {
     return testSettings[name]
   } else if (!testingSettings) {
     return process.env[name]
-  }  
+  }
 }
 
+// Values determined by the testing mode of the bot (online/local)
+const mongooseValue = checkingTesting(testingSettings, 'mongooseToken')
+const googleValue = checkingTesting(testingSettings, 'GOOGLE_API_KEY')
+const tokenValue = checkingTesting(testingSettings, 'BOT_TOKEN')
 
 const {
   Util
@@ -39,13 +43,9 @@ const YouTube = require('simple-youtube-api')
 const ytdl = require('ytdl-core')
 const snekfetch = require('snekfetch')
 
-mongooseValue = checkingTesting(testingSettings, 'mongooseToken')
-
 mongoose.connect(`mongodb+srv://Andreasgdp:${mongooseValue}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`, {
   useNewUrlParser: true
 })
-
-googleValue = checkingTesting(testingSettings, 'GOOGLE_API_KEY')
 
 const youtube = new YouTube(`${googleValue}`)
 
@@ -80,7 +80,7 @@ fs.readdir('./cmds/', (err, files) => {
 })
 
 // Sends an embed when joining a server:
-bot.on('guildCreate', async guild => {})
+bot.on('guildCreate', async guild => { })
 
 // Sends warnings to the console:
 bot.on('warn', (e) => console.warn(e))
@@ -100,7 +100,7 @@ bot.on('ready', async () => {
   setInterval(async () => {
     bot.user.setActivity(prefix + 'help ' + `|| On ${bot.guilds.size} servers!`)
   }, 10000)
-  
+
   // checks and sends an embed of the statistics from PewDiePie and T-Series youtube channels every 30 mins
   setInterval(async () => {
     let d = new Date()
@@ -108,9 +108,9 @@ bot.on('ready', async () => {
       let subServerID = '432893133874003968'
       let tSeriesId = 'UCq-Fj5jknLsUf-MWSy4_brA'
       let pewdiepieId = 'UC-lHJZR3Gqxm24_Vd_AJ5Yw'
-      const pew = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${pewdiepieId}&key=${botSettings.GOOGLE_API_KEY}`)
+      const pew = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${pewdiepieId}&key=${googleValue}`)
       let pewCounter = pew.body.items[0].statistics.subscriberCount
-      const tGay = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${tSeriesId}&key=${botSettings.GOOGLE_API_KEY}`)
+      const tGay = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${tSeriesId}&key=${googleValue}`)
       let tGayCounter = tGay.body.items[0].statistics.subscriberCount
       if (!bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')) {
         await bot.guilds.get(subServerID).createChannel('pewds-vs-tbad', 'text')
@@ -670,7 +670,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
       serverID: message.guild.id
     }, (err, level) => {
       if (err) console.log(err)
-      if (!level) {}
+      if (!level) { }
       while (level.level * 300 <= level.xp) {
         level.level = level.level + 1
         level.save().catch(err => console.log(err))
@@ -688,7 +688,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
 
 // YouTube part of bot
 // Function for handeling video from youtube:
-async function handleVideo (video, message, voiceChannel, playlist = false) {
+async function handleVideo(video, message, voiceChannel, playlist = false) {
   const serverQueue = queue.get(message.guild.id)
   const song = {
     id: video.id,
@@ -725,7 +725,7 @@ async function handleVideo (video, message, voiceChannel, playlist = false) {
 }
 
 // Function for playing videos from youtube:
-function play (guild, song) {
+function play(guild, song) {
   const serverQueue = queue.get(guild.id)
 
   if (!song) {
@@ -747,7 +747,6 @@ function play (guild, song) {
 }
 // End of YouTube bot
 
-tokenValue = checkingTesting(testingSettings, 'BOT_TOKEN')
 
 bot.login(tokenValue)
 
