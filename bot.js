@@ -2,10 +2,8 @@
 // * Use when putting online
 // ------------------------------------------------------------------
 const testingSettings = false
-let onlineSettingCondition = false
 try {
   const onlineSettings = require('./ignored_folder/ignoredsettings.json')
-  onlineSettingCondition = true
 } catch (error) {
   console.log(error)
 }
@@ -19,20 +17,26 @@ try {
 // ------------------------------------------------------------------
 
 
-function checkingTesting(testingSettings, name) {
+function checkingTesting(testingSettings) {
+  if (testingSettings) {
+    return 'testing'
+  } else if (!testingSettings) {
+    return 'online'
+  }
+}
+
+function testingValues(testingSettings, name) {
   if (testingSettings) {
     return testSettings[name]
   } else if (!testingSettings) {
-    if (onlineSettingCondition) {
-      return onlineSettings[name]
-    }
+    return onlineSettings[name]
   }
 }
 
 // Values determined by the testing mode of the bot (online/local)
-const mongooseValue = checkingTesting(testingSettings, 'mongooseToken')
-const googleValue = checkingTesting(testingSettings, 'GOOGLE_API_KEY')
-const tokenValue = checkingTesting(testingSettings, 'BOT_TOKEN')
+const mongooseValue = testingValues(testingSettings, 'mongooseToken')
+const googleValue = testingValues(testingSettings, 'GOOGLE_API_KEY')
+const tokenValue = testingValues(testingSettings, 'BOT_TOKEN')
 
 const {
   Util
