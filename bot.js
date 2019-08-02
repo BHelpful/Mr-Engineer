@@ -2,11 +2,7 @@
 // * Use when putting online
 // ------------------------------------------------------------------
 const testingSettings = false
-try {
-  const onlineSettings = require('./ignored_folder/ignoredsettings.json')
-} catch (error) {
-  console.log(error)
-}
+const onlineSettings = require('./ignored_folder/ignoredsettings.json')
 // ------------------------------------------------------------------
 
 // * Comment out when putting online
@@ -29,7 +25,11 @@ function testingValues(testingSettings, name) {
   if (testingSettings) {
     return testSettings[name]
   } else if (!testingSettings) {
-    return onlineSettings[name]
+    try {
+      return onlineSettings[name]
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

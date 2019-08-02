@@ -8,6 +8,5 @@ const {
 
 
 test('checking to see if testing-mode is on', async () => {
-  const onlineSettings = require('./ignored_folder/ignoredsettings.json')
-  expect(checkingTesting(testingSettings, 'BOT_TOKEN')).toBe(onlineSettings['BOT_TOKEN']);
+  expect(checkingTesting(testingSettings)).toBe('online');
 });
