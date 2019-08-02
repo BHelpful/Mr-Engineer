@@ -16,6 +16,7 @@
   "dependencies": {
     "dankmemes": "^1.0.0",
     "discord.js": "^11.3.2",
+    "dotenv": "^8.0.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^3.2.2-3",
     "mongoose": "^5.3.1",

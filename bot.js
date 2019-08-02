@@ -1,29 +1,35 @@
+const ENV = require('dotenv')
+ENV.config();
+
 // Comment out when testing
 // * Use when putting online
 // ------------------------------------------------------------------
-const testingSettings = false
+const testing = false
 // ------------------------------------------------------------------
 
 // * Comment out when putting online
 // Use when testing
 // ------------------------------------------------------------------
-// const testingSettings = true
-// const testSettings = require('./ignored_folder/ignoredsettings.json')
+// const testing = true
 // ------------------------------------------------------------------
 
 
-function checkingTesting(testingSettings, name) {
-  if (testingSettings) {
-    return testSettings[name]
-  } else if (!testingSettings) {
-    return process.env[name]
+function checkingTesting(testing) {
+  if (testing) {
+    return 'testing'
+  } else if (!testing) {
+    return 'online'
   }
 }
 
 // Values determined by the testing mode of the bot (online/local)
-const mongooseValue = checkingTesting(testingSettings, 'mongooseToken')
-const googleValue = checkingTesting(testingSettings, 'GOOGLE_API_KEY')
-const tokenValue = checkingTesting(testingSettings, 'BOT_TOKEN')
+const mongooseValue = process.env.MONGOOSE_TOKEN
+const googleValue = process.env.GOOGLE_API_KEY
+const tokenValue = process.env.BOT_TOKEN
+
+// const mongooseValue = checkingTesting(testing, 'mongooseToken')
+// const googleValue = checkingTesting(testing, 'GOOGLE_API_KEY')
+// const tokenValue = checkingTesting(testing, 'BOT_TOKEN')
 
 const {
   Util
@@ -64,7 +70,7 @@ fs.readdir('./cmds/', (err, files) => {
     return
   }
 
-  if (testingSettings) {
+  if (testing) {
     console.log(`Loading ${jsfiles.length} commands!`)
   }
 
@@ -757,5 +763,5 @@ module.exports = {
 
 
   // Exporting variables
-  testingSettings: testingSettings,
+  testing: testing,
 }
