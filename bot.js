@@ -2,13 +2,15 @@
 // * Use when putting online
 // ------------------------------------------------------------------
 const testingSettings = false
+const onlineSettings = require('./ignored_folder/ignoredsettings.json')
+
 // ------------------------------------------------------------------
 
 // * Comment out when putting online
 // Use when testing
 // ------------------------------------------------------------------
 // const testingSettings = true
-// const testSettings = require('./ignored_folder/ignoredsettings.json')
+// const onlineSettings = require('./ignored_folder/ignoredsettings.json')
 // ------------------------------------------------------------------
 
 
@@ -16,7 +18,9 @@ function checkingTesting(testingSettings, name) {
   if (testingSettings) {
     return testSettings[name]
   } else if (!testingSettings) {
-    return process.env[name]
+    if (onlineSettings) {
+      return onlineSettings[name]
+    }
   }
 }
 
