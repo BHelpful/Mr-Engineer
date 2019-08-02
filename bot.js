@@ -2,8 +2,10 @@
 // * Use when putting online
 // ------------------------------------------------------------------
 const testingSettings = false
+let onlineSettingCondition = false
 try {
   const onlineSettings = require('./ignored_folder/ignoredsettings.json')
+  onlineSettingCondition = true
 } catch (error) {
   console.log(error)
 }
@@ -21,7 +23,9 @@ function checkingTesting(testingSettings, name) {
   if (testingSettings) {
     return testSettings[name]
   } else if (!testingSettings) {
-    return onlineSettings[name]
+    if (onlineSettingCondition) {
+      return onlineSettings[name]
+    }
   }
 }
 
