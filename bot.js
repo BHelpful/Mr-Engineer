@@ -2,7 +2,11 @@
 // * Use when putting online
 // ------------------------------------------------------------------
 const testingSettings = false
-const onlineSettings = require('./ignored_folder/ignoredsettings.json')
+try {
+  const onlineSettings = require('./ignored_folder/ignoredsettings.json')
+} catch (error) {
+  console.log(error)
+}
 // ------------------------------------------------------------------
 
 // * Comment out when putting online
