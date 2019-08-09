@@ -148,10 +148,10 @@ bot.on('ready', async () => {
     if (d.getMinutes() === 0 && d.getSeconds() === 0) {
       // define a channel to post the meme in
       let memeServerID = '432893133874003968'
-      if (!bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣migmig')) {
-        await bot.guilds.get(memeServerID).createChannel('🤣migmig', 'text')
+      if (!bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣auto-migmig')) {
+        await bot.guilds.get(memeServerID).createChannel('🤣auto-migmig', 'text')
       }
-      let sendChannel = bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣migmig')
+      let sendChannel = bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣auto-migmig')
       // get the json version of the memes from r/dankmemes/top
       const { body } = await snekfetch.get('https://www.reddit.com/r/dankmemes/top.json?sort=top&t=24hours')
       const allowed = sendChannel.nsfw ? body.data.children : body.data.children.filter(post => !post.data.over_18)
