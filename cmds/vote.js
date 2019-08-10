@@ -57,7 +57,10 @@ module.exports.run = async (bot, message, args) => {
     .addField('\u200B', `React to vote! (${yes} or ${no})`)
 
 
-  await message.channel.send(mentionList)
+  if (mentionList.length != 0) 
+  {
+    await message.channel.send(mentionList)
+  }
   let msg = await message.channel.send(voteEmbed)
 
   await msg.react(yesID)
