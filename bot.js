@@ -106,44 +106,6 @@ bot.on('ready', async () => {
   // checks and sends an embed of the statistics from PewDiePie and T-Series youtube channels every 30 mins
   setInterval(async () => {
     let d = new Date()
-    if ((d.getMinutes() === 30 && d.getSeconds() === 0) || (d.getMinutes() === 0 && d.getSeconds() === 0)) {
-      let subServerID = '432893133874003968'
-      let tSeriesId = 'UCq-Fj5jknLsUf-MWSy4_brA'
-      let pewdiepieId = 'UC-lHJZR3Gqxm24_Vd_AJ5Yw'
-      const pew = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${pewdiepieId}&key=${googleValue}`)
-      let pewCounter = pew.body.items[0].statistics.subscriberCount
-      const tGay = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${tSeriesId}&key=${googleValue}`)
-      let tGayCounter = tGay.body.items[0].statistics.subscriberCount
-      if (!bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')) {
-        await bot.guilds.get(subServerID).createChannel('pewds-vs-tbad', 'text')
-      }
-      let sendChannel = bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')
-      let leadingName
-      let leadingIcon
-      let leadingColor
-
-      if (pewCounter / 10 > tGayCounter / 10) {
-        leadingName = 'PewDiePie'
-        leadingIcon = 'https://cdn.iconscout.com/icon/free/png-256/pewdiepie-282191.png'
-        leadingColor = '#00c9e0'
-      } else {
-        leadingName = 'T-Bad'
-        leadingIcon = 'https://pbs.twimg.com/profile_images/720159926723588096/E49B7GyJ_400x400.jpg'
-        leadingColor = '#ff0000'
-      }
-      let subEmbed = new Discord.RichEmbed()
-        .setAuthor(`${leadingName} is ahead!`, `${leadingIcon}`)
-        .setTitle('Do your part here!')
-        .setURL('https://www.youtube.com/user/PewDiePie?sub_confirmation=1')
-        .setColor(leadingColor)
-        .setThumbnail(leadingIcon)
-        .setFooter('Remember to do your part boiiis')
-        .setTimestamp()
-        .addField(`THE SUBGAP: ${pewCounter - tGayCounter}`, '\u200B')
-        .addField("PewDiePie's subcount:", pewCounter, true)
-        .addField("T-Bad's subcount:", tGayCounter, true)
-      sendChannel.send(subEmbed)
-    }
 
     if (d.getMinutes() === 0 && d.getSeconds() === 0) {
       // define a channel to post the meme in
