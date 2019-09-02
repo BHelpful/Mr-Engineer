@@ -151,9 +151,57 @@ bot.on('ready', async () => {
       sendChannel.send(embed)
     }
 
+    if (d.getMinutes() === 0 && d.getSeconds() === 0) {
+      // define a channel to post the meme in
+      let memeServerID = '432893133874003968'
+      if (!bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣auto-dankmark')) {
+        await bot.guilds.get(memeServerID).createChannel('🤣auto-dankmark', 'text')
+      }
+      let sendChannel = bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣auto-dankmark')
+      // get the json version of the memes from r/dankmemes/top
+      const { body } = await snekfetch.get('https://www.reddit.com/r/dankmark/top.json?sort=top&t=24hours')
+      const allowed = sendChannel.nsfw ? body.data.children : body.data.children.filter(post => !post.data.over_18)
+      if (!allowed.length) return sendChannel.send('It seems we are out of fresh memes!, Try again later.')
+
+      // take the top meme from the json and define it as the meme
+      let number = 0
+      let memeLogFile = require('./dankmarklog.json')
+      let theMeme = allowed[number].data
+      do {
+        theMeme = allowed[number].data
+        // if the id isn't already in a local meme json file
+        if (!memeLogFile.includes(theMeme.id)) {
+          // log the meme id of the new meme in the json file
+          memeLogFile.push(theMeme.id)
+          fs.writeFile('./dankmarklog.json', JSON.stringify(memeLogFile), (err) => {
+            if (err) console.log(err)
+          })
+
+          break
+        } else {
+          // increment number
+          number++
+        }
+      } while (true) // while the meme id is already in the local json file
+
+      // make an embed and post the meme in the pre-defined server channel
+      const embed = new Discord.RichEmbed()
+        .setColor(0x00A2E8)
+        .setTitle(theMeme.title)
+        .setURL(`https://www.reddit.com${theMeme.permalink}`)
+        .setDescription('Posted by: ' + theMeme.author)
+        .setImage(theMeme.url)
+        .setFooter(`👍 ${theMeme.ups} 💬 ${theMeme.num_comments}`)
+      sendChannel.send(embed)
+    }
+
     if (d.getHours() === 5 && d.getSeconds() === 0) {
       let cleanArray = []
       fs.writeFile('./memelog.json', JSON.stringify(cleanArray), (err) => {
+        if (err) console.log(err)
+      })
+
+      fs.writeFile('./dankmarklog.json', JSON.stringify(cleanArray), (err) => {
         if (err) console.log(err)
       })
     }
