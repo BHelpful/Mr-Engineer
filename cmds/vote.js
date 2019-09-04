@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
 
 
   const voteEmbed = new Discord.RichEmbed()
-    .setAuthor(`Poll created by${sender.username}`, sender.displayAvatarURL)
+    .setAuthor(`Poll created by ${sender.username}`, sender.displayAvatarURL)
     .setColor('#a3008d')
     .setDescription(messageList.join(' '))
     .addField('\u200B', `React to vote! (${yes} or ${no})`)

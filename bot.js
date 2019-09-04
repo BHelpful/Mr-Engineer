@@ -4,13 +4,13 @@ ENV.config();
 // Comment out when testing
 // * Use when putting online
 // ------------------------------------------------------------------
-const testing = false
+// const testing = false
 // ------------------------------------------------------------------
 
 // * Comment out when putting online
 // Use when testing
 // ------------------------------------------------------------------
-// const testing = true
+const testing = true
 // ------------------------------------------------------------------
 
 
