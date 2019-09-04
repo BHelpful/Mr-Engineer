@@ -29,6 +29,7 @@ module.exports.run = async (bot, message, args, prefix, botSettings) => {
       .addField(prefix + 'removensfw', `Removes the role NSFW.`)
       .addField(prefix + 'userinfo <USER>', `Gives a list of information of you or the user mentioned.`)
       .addField(prefix + 'ss', `Generates a link to activate Screen Share in the voice channel the user is in.`)
+      .addField(prefix + 'poll <STATEMENT OR QUESTION>', `Creates a YES/NO poll for the statement/question`)
 
     let musicEmbed = new Discord.RichEmbed()
       .setTitle('Music commands:')
