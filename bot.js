@@ -682,18 +682,23 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
       serverID: message.guild.id
     }, (err, level) => {
       if (err) console.log(err)
-      if (!level) { }
-      while (level.level * 300 <= level.xp) {
-        level.level = level.level + 1
-        level.save().catch(err => console.log(err))
-        if (level.level * 300 >= level.xp) {
-          let lvlup = new Discord.RichEmbed()
-            .setTitle('Level Up!')
-            .setColor(botSettings.purple)
-            .addField('New Level', level.level)
-          message.channel.send(lvlup).then(msg => msg.delete(5000))
+      if (!level || level == null) { }
+      try {
+        while (level.level * 300 <= level.xp) {
+          level.level = level.level + 1
+          level.save().catch(err => console.log(err))
+          if (level.level * 300 >= level.xp) {
+            let lvlup = new Discord.RichEmbed()
+              .setTitle('Level Up!')
+              .setColor(botSettings.purple)
+              .addField('New Level', level.level)
+            message.channel.send(lvlup).then(msg => msg.delete(5000))
+          }
         }
+      } catch (error) {
+        console.log(error)
       }
+      
     })
   }
 })
