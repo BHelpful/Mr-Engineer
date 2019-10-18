@@ -2,16 +2,16 @@ const ENV = require('dotenv')
 ENV.config();
 
 // Comment out when testing
-// * Use when putting online
-// ------------------------------------------------------------------
+// ! Use when putting online
+// *------------------------------------------------------------------
 const testing = false
-// ------------------------------------------------------------------
+// *------------------------------------------------------------------
 
-// * Comment out when putting online
+// ! Comment out when putting online
 // Use when testing
-// ------------------------------------------------------------------
+// *------------------------------------------------------------------
 // const testing = true
-// ------------------------------------------------------------------
+// *------------------------------------------------------------------
 
 
 function checkingTesting(testing) {
@@ -62,12 +62,12 @@ fs.readdir('./cmds/', (err, files) => {
 
   let jsfiles = files.filter(f => f.split('.').pop() === 'js')
   if (jsfiles.length <= 0) {
-    if (checkingTesting(testing)) console.log('No commands to load!')
+    if (checkingTesting(testing) == 'testing') console.log('No commands to load!')
     return
   }
 
   if (testing) {
-    if (checkingTesting(testing)) console.log(`Loading ${jsfiles.length} commands!`)
+    if (checkingTesting(testing) == 'testing') console.log(`Loading ${jsfiles.length} commands!`)
   }
 
   jsfiles.forEach((f, i) => {
@@ -95,7 +95,7 @@ bot.on('error', (e) => console.error(e))
 
 // Code that runs when the bot is active/ready and in set intervals:
 bot.on('ready', async () => {
-  if (checkingTesting(testing)) console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`)
+  if (checkingTesting(testing) == 'testing') console.log(`${bot.user.username} is online on ${bot.guilds.size} servers!`)
 
   bot.user.setActivity(prefix + 'help ' + `|| On ${bot.guilds.size} servers!`)
 

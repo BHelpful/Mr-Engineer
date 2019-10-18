@@ -3,3 +3,9 @@ ignored_folder/
 tempCodeRunnerFile.js
 .env
 node_modules/
+
+package-lock.json
+mutes.json
+dankmarklog.json
+memelog.json
+prefixes.json
