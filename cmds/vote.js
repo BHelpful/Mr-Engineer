@@ -12,7 +12,6 @@ module.exports.run = async (bot, message, args) => {
   let yesID = null
   let no = null
   let noID = null
-  console.log(args);
   
   let messageList = args.slice(0)
   let mentionList = []
