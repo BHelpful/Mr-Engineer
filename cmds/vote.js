@@ -21,8 +21,10 @@ module.exports.run = async (bot, message, args) => {
     const element = args[index];
     if (element.startsWith('<@') && element.endsWith('>') || element === '@everyone' || element === '@here')
     {
-      messageList.splice(index - placementSubtractor, 1)
-      placementSubtractor++
+      // !UNCOMMENT TO REMOVE THE MENTIONS FROM THE POLL COMMAND
+      // messageList.splice(index - placementSubtractor, 1)
+      // placementSubtractor++
+      // !------------------------------------------------------
       mentionList.push(element)
     }
   }
@@ -51,10 +53,10 @@ module.exports.run = async (bot, message, args) => {
 
 
   const voteEmbed = new Discord.RichEmbed()
-    .setAuthor(`Poll created by ${sender.username}`, sender.displayAvatarURL)
+    .setAuthor(`${sender.username} created a poll`, sender.displayAvatarURL)
     .setColor('#a3008d')
-    .setDescription(messageList.join(' '))
-    .addField('\u200B', `React to vote! (${yes} or ${no})`)
+    .setDescription(`${messageList.join(' ')}`)
+    .addField('Poll creator', `${sender}  \nReact to vote! (${yes} or ${no})`)
 
 
   if (mentionList.length != 0) 
