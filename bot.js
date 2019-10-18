@@ -106,44 +106,6 @@ bot.on('ready', async () => {
   // checks and sends an embed of the statistics from PewDiePie and T-Series youtube channels every 30 mins
   setInterval(async () => {
     let d = new Date()
-    if ((d.getMinutes() === 30 && d.getSeconds() === 0) || (d.getMinutes() === 0 && d.getSeconds() === 0)) {
-      let subServerID = '432893133874003968'
-      let tSeriesId = 'UCq-Fj5jknLsUf-MWSy4_brA'
-      let pewdiepieId = 'UC-lHJZR3Gqxm24_Vd_AJ5Yw'
-      const pew = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${pewdiepieId}&key=${googleValue}`)
-      let pewCounter = pew.body.items[0].statistics.subscriberCount
-      const tGay = await snekfetch.get(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${tSeriesId}&key=${googleValue}`)
-      let tGayCounter = tGay.body.items[0].statistics.subscriberCount
-      if (!bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')) {
-        await bot.guilds.get(subServerID).createChannel('pewds-vs-tbad', 'text')
-      }
-      let sendChannel = bot.guilds.get(subServerID).channels.find(c => c.name === 'pewds-vs-tbad')
-      let leadingName
-      let leadingIcon
-      let leadingColor
-
-      if (pewCounter / 10 > tGayCounter / 10) {
-        leadingName = 'PewDiePie'
-        leadingIcon = 'https://cdn.iconscout.com/icon/free/png-256/pewdiepie-282191.png'
-        leadingColor = '#00c9e0'
-      } else {
-        leadingName = 'T-Bad'
-        leadingIcon = 'https://pbs.twimg.com/profile_images/720159926723588096/E49B7GyJ_400x400.jpg'
-        leadingColor = '#ff0000'
-      }
-      let subEmbed = new Discord.RichEmbed()
-        .setAuthor(`${leadingName} is ahead!`, `${leadingIcon}`)
-        .setTitle('Do your part here!')
-        .setURL('https://www.youtube.com/user/PewDiePie?sub_confirmation=1')
-        .setColor(leadingColor)
-        .setThumbnail(leadingIcon)
-        .setFooter('Remember to do your part boiiis')
-        .setTimestamp()
-        .addField(`THE SUBGAP: ${pewCounter - tGayCounter}`, '\u200B')
-        .addField("PewDiePie's subcount:", pewCounter, true)
-        .addField("T-Bad's subcount:", tGayCounter, true)
-      sendChannel.send(subEmbed)
-    }
 
     if (d.getMinutes() === 0 && d.getSeconds() === 0) {
       // define a channel to post the meme in
@@ -189,9 +151,57 @@ bot.on('ready', async () => {
       sendChannel.send(embed)
     }
 
+    if (d.getMinutes() === 0 && d.getSeconds() === 0) {
+      // define a channel to post the meme in
+      let memeServerID = '432893133874003968'
+      if (!bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣auto-dankmark')) {
+        await bot.guilds.get(memeServerID).createChannel('🤣auto-dankmark', 'text')
+      }
+      let sendChannel = bot.guilds.get(memeServerID).channels.find(c => c.name === '🤣auto-dankmark')
+      // get the json version of the memes from r/dankmemes/top
+      const { body } = await snekfetch.get('https://www.reddit.com/r/dankmark/top.json?sort=top&t=24hours')
+      const allowed = sendChannel.nsfw ? body.data.children : body.data.children.filter(post => !post.data.over_18)
+      if (!allowed.length) return sendChannel.send('It seems we are out of fresh memes!, Try again later.')
+
+      // take the top meme from the json and define it as the meme
+      let number = 0
+      let memeLogFile = require('./dankmarklog.json')
+      let theMeme = allowed[number].data
+      do {
+        theMeme = allowed[number].data
+        // if the id isn't already in a local meme json file
+        if (!memeLogFile.includes(theMeme.id)) {
+          // log the meme id of the new meme in the json file
+          memeLogFile.push(theMeme.id)
+          fs.writeFile('./dankmarklog.json', JSON.stringify(memeLogFile), (err) => {
+            if (err) console.log(err)
+          })
+
+          break
+        } else {
+          // increment number
+          number++
+        }
+      } while (true) // while the meme id is already in the local json file
+
+      // make an embed and post the meme in the pre-defined server channel
+      const embed = new Discord.RichEmbed()
+        .setColor(0x00A2E8)
+        .setTitle(theMeme.title)
+        .setURL(`https://www.reddit.com${theMeme.permalink}`)
+        .setDescription('Posted by: ' + theMeme.author)
+        .setImage(theMeme.url)
+        .setFooter(`👍 ${theMeme.ups} 💬 ${theMeme.num_comments}`)
+      sendChannel.send(embed)
+    }
+
     if (d.getHours() === 5 && d.getSeconds() === 0) {
       let cleanArray = []
       fs.writeFile('./memelog.json', JSON.stringify(cleanArray), (err) => {
+        if (err) console.log(err)
+      })
+
+      fs.writeFile('./dankmarklog.json', JSON.stringify(cleanArray), (err) => {
         if (err) console.log(err)
       })
     }
@@ -672,18 +682,23 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
       serverID: message.guild.id
     }, (err, level) => {
       if (err) console.log(err)
-      if (!level) { }
-      while (level.level * 300 <= level.xp) {
-        level.level = level.level + 1
-        level.save().catch(err => console.log(err))
-        if (level.level * 300 >= level.xp) {
-          let lvlup = new Discord.RichEmbed()
-            .setTitle('Level Up!')
-            .setColor(botSettings.purple)
-            .addField('New Level', level.level)
-          message.channel.send(lvlup).then(msg => msg.delete(5000))
+      if (!level || level == null) { }
+      try {
+        while (level.level * 300 <= level.xp) {
+          level.level = level.level + 1
+          level.save().catch(err => console.log(err))
+          if (level.level * 300 >= level.xp) {
+            let lvlup = new Discord.RichEmbed()
+              .setTitle('Level Up!')
+              .setColor(botSettings.purple)
+              .addField('New Level', level.level)
+            message.channel.send(lvlup).then(msg => msg.delete(5000))
+          }
         }
+      } catch (error) {
+        console.log(error)
       }
+      
     })
   }
 })
