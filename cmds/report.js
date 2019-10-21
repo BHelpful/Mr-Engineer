@@ -22,7 +22,14 @@ module.exports.run = async (bot, message, args) => {
   let reportsChannel = message.guild.channels.find(`name`, 'reports')
   if (!reportsChannel) return message.channel.send("Couldn't find reports channel!")
 
+  let reportInfoEmbed = new Discord.RichEmbed()
+    .setColor('#15f153')
+    .addField('Report', `${rUser} was reported by ${message.author}`)
+    .addField('Reason', reason)
+    .setTimestamp()
+
   reportsChannel.send(reportEmbed)
+  message.channel.send(reportInfoEmbed)
 }
 
 module.exports.help = {
