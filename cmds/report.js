@@ -8,10 +8,10 @@ module.exports.run = async (bot, message, args) => {
   await message.delete()
 
   let reportEmbed = new Discord.RichEmbed()
-    .setDescription('Reports')
+    .setDescription('Report')
     .setColor('#15f153')
-    .addField('Reported User', `${rUser} with ID: ${rUser.id}`, true)
-    .addField('Reason', reason, true)
+    .addField('Reason', reason)
+    .addField('Reported User', `${rUser} with ID: ${rUser.id}`)
     .addField('Reported by', `${message.author} with ID: ${message.author.id}`, true)
     .addField('Channel', message.channel, true)
     .setTimestamp()
