@@ -10,11 +10,11 @@ module.exports.run = async (bot, message, args) => {
   let reportEmbed = new Discord.RichEmbed()
     .setDescription('Reports')
     .setColor('#15f153')
-    .addField('Reported User', `${rUser} with ID: ${rUser.id}`)
-    .addField('Reported by', `${message.author} with ID: ${message.author.id}`)
-    .addField('Channel', message.channel)
-    .addField('Time', message.createdAt)
-    .addField('Reason', reason)
+    .addField('Reported User', `${rUser} with ID: ${rUser.id}`, true)
+    .addField('Reason', reason, true)
+    .addField('Reported by', `${message.author} with ID: ${message.author.id}`, true)
+    .addField('Channel', message.channel, true)
+    .setTimestamp()
 
   if (!message.guild.channels.find(`name`, 'reports')) {
     await message.guild.createChannel('reports', 'text')
