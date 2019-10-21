@@ -5,6 +5,8 @@ module.exports.run = async (bot, message, args) => {
   if (!rUser) return message.channel.send("Couldn't find user!")
   let reason = args.join(' ').slice(22)
 
+  await message.delete()
+
   let reportEmbed = new Discord.RichEmbed()
     .setDescription('Reports')
     .setColor('#15f153')
