@@ -3,6 +3,7 @@ ignored_folder/
 tempCodeRunnerFile.js
 .env
 node_modules/
+.vscode
 
 package-lock.json
 mutes.json
