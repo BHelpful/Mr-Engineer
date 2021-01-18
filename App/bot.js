@@ -4,13 +4,13 @@ ENV.config();
 // Comment out when testing
 // ! Use when putting online
 // *------------------------------------------------------------------
-const testing = false;
+// const testing = false;
 // *------------------------------------------------------------------
 
 // ! Comment out when putting online
 // Use when testing
 // *------------------------------------------------------------------
-// const testing = true
+const testing = true;
 // *------------------------------------------------------------------
 
 function checkingTesting(testing) {
@@ -145,7 +145,7 @@ bot.on('ready', async () => {
 
 			// take the top meme from the json and define it as the meme
 			let number = 0;
-			let memeLogFile = require('./memelog.json');
+			let memeLogFile = require('../memelog.json');
 			let theMeme = allowed[number].data;
 			do {
 				theMeme = allowed[number].data;
@@ -208,7 +208,7 @@ bot.on('ready', async () => {
 
 			// take the top meme from the json and define it as the meme
 			let number = 0;
-			let memeLogFile = require('./dankmarklog.json');
+			let memeLogFile = require('../dankmarklog.json');
 			let theMeme = allowed[number].data;
 			do {
 				theMeme = allowed[number].data;
