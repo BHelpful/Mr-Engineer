@@ -14,8 +14,9 @@
     "test"
   ],
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "dankmemes": "^1.0.0",
-    "discord.js": "^11.6.4",
+    "discord.js": "^12.5.1",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^4.0.0",
     "m3u8stream": "^0.8.3",
