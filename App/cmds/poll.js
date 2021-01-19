@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const errors = require('../utils/errors.js');
 
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES')
   if (!args[0]) return message.channel.send('Proper Usage: <prefix>vote *Insert question here*')
   await message.delete()
@@ -33,15 +33,15 @@ module.exports.run = async (bot, message, args) => {
 
   if (message.guild.id === '432893133874003968') 
   {
-    yes = bot.emojis.get('588366475220353044').toString()
+    yes = client.emojis.get('588366475220353044').toString()
     yesID = '588366475220353044'
-    no = bot.emojis.get('588366496149798922').toString()
+    no = client.emojis.get('588366496149798922').toString()
     noID = '588366496149798922'
   } else if (message.guild.id === '453202034489819166') 
   {
-    yes = bot.emojis.get('609661997251952661').toString()
+    yes = client.emojis.get('609661997251952661').toString()
     yesID = '609661997251952661'
-    no = bot.emojis.get('609662011751530521').toString()
+    no = client.emojis.get('609662011751530521').toString()
     noID = '609662011751530521'
   } else 
   {

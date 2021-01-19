@@ -4,13 +4,13 @@ ENV.config();
 // Comment out when testing
 // ! Use when putting online
 // *------------------------------------------------------------------
-const testing = false;
+// const testing = false;
 // *------------------------------------------------------------------
 
 // ! Comment out when putting online
 // Use when testing
 // *------------------------------------------------------------------
-// const testing = true;
+const testing = true;
 // *------------------------------------------------------------------
 
 function checkingTesting(testing) {
@@ -22,7 +22,6 @@ function checkingTesting(testing) {
 }
 
 // Values determined by the testing mode of the bot (online/local)
-const mongooseValue = process.env.MONGOOSE_TOKEN;
 const googleValue = process.env.GOOGLE_API_KEY;
 const tokenValue = process.env.BOT_TOKEN;
 
@@ -32,29 +31,20 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const prefix = botSettings.prefix;
 const defaultPrefix = '-';
-const bot = new Discord.Client({
+const client = new Discord.Client({
 	disableEveryone: true,
 });
-const mongoose = require('mongoose');
-const Level = require('./models/level.js');
 const errors = require('./utils/errors.js');
 const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const snekfetch = require('snekfetch');
 
-mongoose.connect(
-	`mongodb+srv://Andreasgdp:${mongooseValue}@utilitybot-ss4dg.mongodb.net/test?retryWrites=true`,
-	{
-		useNewUrlParser: true,
-	}
-);
-
 const youtube = new YouTube(`${googleValue}`);
 
 const queue = new Map();
 
-bot.commands = new Discord.Collection();
-bot.mutes = require('./mutes.json');
+client.commands = new Discord.Collection();
+client.mutes = require('./mutes.json');
 
 // Loads the commands for the bot:
 fs.readdir('./cmds/', (err, files) => {
@@ -76,7 +66,7 @@ fs.readdir('./cmds/', (err, files) => {
 		let props = require(`./cmds/${f}`);
 
 		if (props && props.help) {
-			bot.commands.set(props.help.name, props);
+			client.commands.set(props.help.name, props);
 		} else {
 			//throw or handle error here
 		}
@@ -84,31 +74,28 @@ fs.readdir('./cmds/', (err, files) => {
 });
 
 // Sends an embed when joining a server:
-bot.on('guildCreate', async (guild) => {});
+client.on('guildCreate', async (guild) => {});
 
 // Sends warnings to the console:
-bot.on('warn', (e) => console.warn(e));
+client.on('warn', (e) => console.warn(e));
 
 // Sends errors to the console:
-bot.on('error', (e) => console.error(e));
-
-// Sends debugging information to the console:
-// bot.on('debug', (e) => console.info(e));
+client.on('error', (e) => console.error(e));
 
 // Code that runs when the bot is active/ready and in set intervals:
-bot.on('ready', async () => {
+client.on('ready', async () => {
 	if (checkingTesting(testing) == 'testing')
 		console.log(
-			`${bot.user.username} is online on ${bot.guilds.size} servers!`
+			`${client.user.username} is online on ${client.guilds.cache.size} servers!`
 		);
 
-	bot.user.setActivity(
-		prefix + 'help ' + `|| On ${bot.guilds.size} servers!`
+	client.user.setActivity(
+		prefix + 'help ' + `|| On ${client.guilds.cache.size} servers!`
 	);
 
 	setInterval(async () => {
-		bot.user.setActivity(
-			prefix + 'help ' + `|| On ${bot.guilds.size} servers!`
+		client.user.setActivity(
+			prefix + 'help ' + `|| On ${client.guilds.cache.size} servers!`
 		);
 	}, 10000);
 
@@ -120,15 +107,15 @@ bot.on('ready', async () => {
 			// define a channel to post the meme in
 			let memeServerID = '432893133874003968';
 			if (
-				!bot.guilds
+				!client.guilds
 					.get(memeServerID)
 					.channels.find((c) => c.name === '🤣auto-migmig')
 			) {
-				await bot.guilds
+				await client.guilds
 					.get(memeServerID)
 					.createChannel('🤣auto-migmig', 'text');
 			}
-			let sendChannel = bot.guilds
+			let sendChannel = client.guilds
 				.get(memeServerID)
 				.channels.find((c) => c.name === '🤣auto-migmig');
 			// get the json version of the memes from r/dankmemes/top
@@ -183,15 +170,15 @@ bot.on('ready', async () => {
 			// define a channel to post the meme in
 			let memeServerID = '432893133874003968';
 			if (
-				!bot.guilds
+				!client.guilds
 					.get(memeServerID)
 					.channels.find((c) => c.name === '🤣auto-dankmark')
 			) {
-				await bot.guilds
+				await client.guilds
 					.get(memeServerID)
 					.createChannel('🤣auto-dankmark', 'text');
 			}
-			let sendChannel = bot.guilds
+			let sendChannel = client.guilds
 				.get(memeServerID)
 				.channels.find((c) => c.name === '🤣auto-dankmark');
 			// get the json version of the memes from r/dankmemes/top
@@ -262,11 +249,11 @@ bot.on('ready', async () => {
 		}
 	}, 1000);
 
-	bot.setInterval(() => {
-		for (let i in bot.mutes) {
-			let time = bot.mutes[i].time;
-			let guildId = bot.mutes[i].guild;
-			let guild = bot.guilds.get(guildId);
+	client.setInterval(() => {
+		for (let i in client.mutes) {
+			let time = client.mutes[i].time;
+			let guildId = client.mutes[i].guild;
+			let guild = client.guilds.get(guildId);
 			let member = guild.members.get(i);
 			let mutedRole = guild.roles.find((r) => r.name === 'Muted');
 			let roleM = guild.roles.find((r) => r.name === 'Medlem');
@@ -277,11 +264,11 @@ bot.on('ready', async () => {
 
 				member.removeRole(mutedRole);
 				member.addRole(roleM);
-				delete bot.mutes[i];
+				delete client.mutes[i];
 
 				fs.writeFile(
 					'./mutes.json',
-					JSON.stringify(bot.mutes),
+					JSON.stringify(client.mutes),
 					(err) => {
 						if (err) throw err;
 						console.log(`I have unmuted ${member.user.tag}.`);
@@ -293,17 +280,17 @@ bot.on('ready', async () => {
 });
 
 // Runs when the bot is disconnecting and sends information to the console:
-bot.on('disconnect', () =>
+client.on('disconnect', () =>
 	console.log(
 		'I just disconnected, making sure you know, I will reconnect now...'
 	)
 );
 
 // Runs then reconnecting and sends information to the console:
-bot.on('reconnecting', () => console.log('I am reconnecting now!'));
+client.on('reconnecting', () => console.log('I am reconnecting now!'));
 
 // Sends an embed with new members joining the server:
-bot.on('guildMemberAdd', async (member) => {
+client.on('guildMemberAdd', async (member) => {
 	if (!member.guild.channels.find(`name`, '📑medlems-log')) {
 		await member.guild.createChannel('📑medlems-log', 'text');
 	}
@@ -330,7 +317,7 @@ bot.on('guildMemberAdd', async (member) => {
 });
 
 // Sends an embed with new members leaving the server:
-bot.on('guildMemberRemove', async (member) => {
+client.on('guildMemberRemove', async (member) => {
 	console.log(member.guild);
 	if (!member.guild.channels.find(`name`, '📑medlems-log')) {
 		await member.guild.createChannel('📑medlems-log', 'text');
@@ -349,7 +336,7 @@ bot.on('guildMemberRemove', async (member) => {
 });
 
 // Logging the creation of channels:
-bot.on('channelCreate', async (channel) => {
+client.on('channelCreate', async (channel) => {
 	const entry = await channel.guild
 		.fetchAuditLogs({
 			type: 'CHANNEL_CREATE',
@@ -376,7 +363,7 @@ bot.on('channelCreate', async (channel) => {
 });
 
 // Logging the deletion of channels:
-bot.on('channelDelete', async (channel) => {
+client.on('channelDelete', async (channel) => {
 	const entry = await channel.guild
 		.fetchAuditLogs({
 			type: 'CHANNEL_DELETE',
@@ -401,7 +388,7 @@ bot.on('channelDelete', async (channel) => {
 });
 
 // Logging updates of members:
-bot.on('guildMemberUpdate', async (oldMember, newMember) => {
+client.on('guildMemberUpdate', async (oldMember, newMember) => {
 	/*
   const entryO = await oldMember.guild.fetchAuditLogs({
     type: 'MEMBER_UPDATE'
@@ -458,7 +445,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 });
 
 // Logging deletion of messages:
-bot.on('messageDelete', async (message) => {
+client.on('messageDelete', async (message) => {
 	if (message.channel === message.guild.channels.find(`name`, 'server-log'))
 		return;
 
@@ -467,7 +454,7 @@ bot.on('messageDelete', async (message) => {
 			type: 'MESSAGE_DELETE',
 		})
 		.then((audit) => audit.entries.first());
-	if (message.author.id === bot.user.id) return;
+	if (message.author.id === client.user.id) return;
 	let user = '';
 	try {
 		if (
@@ -496,11 +483,7 @@ bot.on('messageDelete', async (message) => {
 		delMessage = 'There was no text in the message.';
 	}
 
-	if (
-		delMessage.startsWith(`${prefix}level`) ||
-		delMessage.startsWith(`${prefix}clear`) ||
-		user.id === undefined
-	)
+	if (delMessage.startsWith(`${prefix}clear`) || user.id === undefined)
 		return;
 
 	let deleteEmbed = new Discord.RichEmbed()
@@ -537,7 +520,7 @@ bot.on('messageDelete', async (message) => {
 });
 
 // Logging pins in all text channels:
-bot.on('channelPinsUpdate', async (channel, time) => {
+client.on('channelPinsUpdate', async (channel, time) => {
 	if (!channel.guild.channels.find(`name`, 'server-log')) {
 		await channel.guild.createChannel('server-log', 'text');
 	}
@@ -556,7 +539,7 @@ bot.on('channelPinsUpdate', async (channel, time) => {
 });
 
 // Activates different commands on different messages:
-bot.on('message', async (message) => {
+client.on('message', async (message) => {
 	if (message.author.bot) return;
 	if (message.channel.type === 'dm') return;
 
@@ -818,75 +801,9 @@ ${serverQueue.songs.map((song) => `**-** ${song.title}`).join('\n')}
 	// End of YouTube part of bot
 
 	if (message.content.startsWith(prefix)) {
-		let cmd = bot.commands.get(command.slice(prefix.length));
-		if (cmd) cmd.run(bot, message, args, prefix, botSettings, serverQueue);
-	} else {
-		let xpAdd = Math.ceil(Math.random() * 3);
-		let lucky = Math.ceil(Math.random() * 1000000);
-
-		if (lucky === 42) {
-			xpAdd = 10000;
-			let luckyOne = new Discord.RichEmbed()
-				.setTitle('You are the lucky one!')
-				.setColor(botSettings.gold)
-				.addField('You have been granted extreme power', `${xpAdd} XP`);
-			message.channel.send(luckyOne).then((msg) => msg.delete(10000));
-		} else if (args.length > 7 && args.length < 13) {
-			xpAdd = Math.ceil(Math.random() * 7);
-		} else if (args.length > 15) {
-			xpAdd = Math.ceil(Math.random() * 15);
-		}
-
-		Level.findOne(
-			{
-				userID: message.author.id,
-				serverID: message.guild.id,
-			},
-			(err, xp) => {
-				if (err) console.log(err);
-				if (!xp) {
-					const newXp = new Level({
-						userID: message.author.id,
-						serverID: message.guild.id,
-						xp: xpAdd,
-						level: 1,
-					});
-					newXp.save().catch((err) => console.log(err));
-				} else if (xp) {
-					xp.xp = xp.xp + xpAdd;
-					xp.save().catch((err) => console.log(err));
-				}
-			}
-		);
-
-		Level.findOne(
-			{
-				userID: message.author.id,
-				serverID: message.guild.id,
-			},
-			(err, level) => {
-				if (err) console.log(err);
-				if (!level || level == null) {
-				}
-				try {
-					while (level.level * 300 <= level.xp) {
-						level.level = level.level + 1;
-						level.save().catch((err) => console.log(err));
-						if (level.level * 300 >= level.xp) {
-							let lvlup = new Discord.RichEmbed()
-								.setTitle('Level Up!')
-								.setColor(botSettings.purple)
-								.addField('New Level', level.level);
-							message.channel
-								.send(lvlup)
-								.then((msg) => msg.delete(5000));
-						}
-					}
-				} catch (error) {
-					console.log(error);
-				}
-			}
-		);
+		let cmd = client.commands.get(command.slice(prefix.length));
+		if (cmd)
+			cmd.run(client, message, args, prefix, botSettings, serverQueue);
 	}
 });
 
@@ -960,7 +877,7 @@ function play(guild, song) {
 }
 // End of YouTube bot
 
-bot.login(tokenValue);
+client.login(tokenValue);
 
 module.exports = {
 	// Exporting functions

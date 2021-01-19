@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const urban = require('urban.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (args.length < 1) return message.channel.send('Please enter search tag.')
   let str = args.join(' ')
   urban(str).then(json => {

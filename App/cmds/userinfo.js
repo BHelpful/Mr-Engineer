@@ -1,6 +1,6 @@
 const Discord = module.require('discord.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   let target = message.mentions.users.first() || message.author
   let member = message.mentions.members.first() || message.member
   let userPic = target.displayAvatarURL

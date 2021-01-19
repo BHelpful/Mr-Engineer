@@ -1,7 +1,7 @@
 // const Discord = require('discord.js')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (!message.member.hasPermission('MANAGE_CHANNELS')) return errors.noPerms(message, 'MANAGE_CHANNELS')
   let rMember = message.mentions.members.first() || message.guild.members.get(args[0])
   if (!rMember) return message.reply("Couldn't find that user, yo")

@@ -1,7 +1,7 @@
 const Discord = module.require('discord.js')
 const urban = module.require('urban')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   var help = args.join('_')
   if (help === 'urban') {
     urban.random().first(json => {

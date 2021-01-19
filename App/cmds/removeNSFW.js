@@ -1,4 +1,4 @@
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   let role = message.guild.roles.find('name', 'NSFW')
   message.member.removeRole(role)
 }

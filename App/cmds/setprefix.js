@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const fs = require('fs')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args, prefix) => {
+module.exports.run = async (client, message, args, prefix) => {
   if (!message.member.hasPermission('MANAGE_GUILD')) return errors.noPerms(message, 'MANAGE_SERVER')
   if (!args[0] || args[0 === 'help']) return message.reply(`Usage: ${prefix} <desired prefix here>`)
 

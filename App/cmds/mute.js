@@ -1,7 +1,7 @@
 const fs = module.require('fs')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES')
 
   let toMute = message.mentions.members.first() || message.guild.members.get(args[0])
@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args) => {
 
   if (toMute.roles.has(role.id)) return message.channel.send('This user is already muted!')
 
-  bot.mutes[toMute.id] = {
+  client.mutes[toMute.id] = {
     guild: message.guild.id,
     time: Date.now() + parseInt(args[1]) * 1000 * 60
   }
@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args) => {
 
   await toMute.addRole(role)
 
-  fs.writeFile('./mutes.json', JSON.stringify(bot.mutes, null, 4), err => {
+  fs.writeFile('./mutes.json', JSON.stringify(client.mutes, null, 4), err => {
     if (err) throw err
     message.channel.send(`<@${toMute.id}> has been muted!`)
   })

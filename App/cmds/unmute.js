@@ -1,7 +1,7 @@
 const fs = module.require('fs')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES')
 
   let toMute = message.mentions.members.first() || message.guild.members.get(args[0])
@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
 
   await toMute.removeRole(role)
 
-  delete bot.mutes[toMute.id]
+  delete client.mutes[toMute.id]
 
   let roleM = message.guild.roles.find(r => r.name === 'Medlem')
   if (!roleM) {
@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
 
   message.channel.send(`<@${toMute.id}> has been umuted!`)
 
-  fs.writeFile('./mutes.json', JSON.stringify(bot.mutes), err => {
+  fs.writeFile('./mutes.json', JSON.stringify(client.mutes), err => {
     if (err) throw err
     console.log(`I have unmuted ${toMute.user.tag}.`)
   })

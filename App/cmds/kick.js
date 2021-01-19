@@ -1,7 +1,7 @@
 const Discord = module.require('discord.js')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES')
 
   let kUser = message.mentions.members.first() || message.guild.members.get(args[0])

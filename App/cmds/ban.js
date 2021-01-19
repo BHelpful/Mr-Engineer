@@ -1,7 +1,7 @@
 const Discord = module.require('discord.js')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (!message.member.hasPermission('BAN_MEMBERS')) return errors.noPerms(message, 'BAN_MEMBERS')
 
   let bUser = message.mentions.members.first() || message.guild.members.get(args[0])

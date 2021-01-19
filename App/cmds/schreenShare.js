@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   if (message.member.voiceChannel) {
     await message.delete()
     serverID = message.guild.id

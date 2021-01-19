@@ -1,5 +1,5 @@
-module.exports.run = async (bot, message, args) => {
-  if (bot.voice.connections) {
+module.exports.run = async (client, message, args) => {
+  if (client.voice.connections) {
     if (message.member.voiceChannel) {
       message.member.voiceChannel.leave()
     } else {

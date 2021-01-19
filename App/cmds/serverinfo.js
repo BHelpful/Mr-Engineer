@@ -1,6 +1,6 @@
 const Discord = module.require('discord.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   var help = args.join('_')
 
   let server = message.guild

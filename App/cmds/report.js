@@ -1,6 +1,6 @@
 const Discord = module.require('discord.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   let rUser = message.mentions.members.first() || message.guild.members.get(args[0])
   if (!rUser) return message.channel.send("Couldn't find user!")
   let reason = args.join(' ').slice(22)

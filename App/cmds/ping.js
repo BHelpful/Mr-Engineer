@@ -1,6 +1,6 @@
 const Discord = module.require('discord.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   let pTime = Date.now() - message.createdTimestamp
 
   if (pTime <= 0) {

@@ -1,7 +1,7 @@
 // const Discord = require('discord.js')
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (client, message, args) => {
   // addrole @test1 Member
   if (!message.member.hasPermission('MANAGE_ROLES')) return errors.noPerms(message, 'MANAGE_ROLES')
   let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])

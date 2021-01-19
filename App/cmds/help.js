@@ -1,6 +1,6 @@
 const Discord = module.require('discord.js')
 
-module.exports.run = async (bot, message, args, prefix, botSettings) => {
+module.exports.run = async (client, message, args, prefix, botSettings) => {
   var help = args.join('_')
 
   let checkEmbed = new Discord.RichEmbed()

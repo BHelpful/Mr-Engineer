@@ -1,6 +1,6 @@
 const errors = require('../utils/errors.js')
 
-module.exports.run = async (bot, message, args, prefix) => {
+module.exports.run = async (client, message, args, prefix) => {
   if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES')
   if (!args[0]) return message.channel.send('oof')
 
