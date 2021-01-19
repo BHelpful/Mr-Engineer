@@ -446,7 +446,7 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
 
 // Logging deletion of messages:
 client.on('messageDelete', async (message) => {
-	if (message.channel === message.guild.channels.find(`name`, 'server-log'))
+	if (message.channel === message.guild.channels.cache.find(`name`, 'server-log'))
 		return;
 
 	const entry = await message.guild
@@ -473,10 +473,10 @@ client.on('messageDelete', async (message) => {
 
 	if (user.bot === true) return;
 
-	if (!message.guild.channels.find(`name`, 'server-log')) {
+	if (!message.guild.channels.cache.find(`name`, 'server-log')) {
 		await message.guild.createChannel('server-log', 'text');
 	}
-	let logChannel = message.guild.channels.find(`name`, 'server-log');
+	let logChannel = message.guild.channels.cache.find(`name`, 'server-log');
 
 	let delMessage = message.content;
 	if (delMessage === '') {
