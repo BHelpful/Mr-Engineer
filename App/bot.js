@@ -47,7 +47,7 @@ client.commands = new Discord.Collection();
 client.mutes = require('./mutes.json');
 
 // Loads the commands for the bot:
-fs.readdir('./cmds/', (err, files) => {
+fs.readdir('./Commands/', (err, files) => {
 	if (err) console.error(err);
 
 	let jsfiles = files.filter((f) => f.split('.').pop() === 'js');
@@ -63,7 +63,7 @@ fs.readdir('./cmds/', (err, files) => {
 	}
 
 	jsfiles.forEach((f, i) => {
-		let props = require(`./cmds/${f}`);
+		let props = require(`./Commands/${f}`);
 
 		if (props && props.help) {
 			client.commands.set(props.help.name, props);

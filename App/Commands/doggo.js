@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args) => {
   } = await superagent
     .get(`https://random.dog/woof.json`)
 
-  let dogEmbed = new Discord.RichEmbed()
+  let dogEmbed = new Discord.MessageEmbed()
     .setColor('#ff9900')
     .setTitle('Doggo :dog:')
     .setImage(body.url)
